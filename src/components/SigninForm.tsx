@@ -34,7 +34,7 @@ export const SigninForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(submit)} className="space-y-8 max-w-xs">
+      <form onSubmit={handleSubmit(submit)} className="space-y-4 w-[20rem]">
         <FormField
           control={form.control}
           name="email"

@@ -1,5 +1,4 @@
 "use client";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -12,40 +11,46 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-
-const signupSchema = z
-  .object({
-    email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(8, "Must contain at least 8 characters"),
-    confirm: z.string().min(8, "Must contain at least 8 characters"),
-  })
-  .refine(({ password, confirm }) => password === confirm, {
-    message: "Passwords don't match",
-    path: ["confirm"],
-  })
-  .refine(({ password, confirm }) => password === confirm, {
-    message: "Passwords don't match",
-    path: ["password"],
-  });
+import { signupAction } from "@/lib/actions";
+import { signupSchema, signupSchemaType } from "@/schemas";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const SignupForm = () => {
-  const form = useForm<z.infer<typeof signupSchema>>({
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
+
+  const form = useForm<signupSchemaType>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
       email: "",
+      username: "",
       password: "",
       confirm: "",
     },
   });
-  const { handleSubmit } = form;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
 
-  const submit = async (values: z.infer<typeof signupSchema>) => {
-    console.log(values);
+  const submit = async (values: signupSchemaType) => {
+    setErrorMessage(null);
+    const res = await signupAction(values);
+    if (res.error) setErrorMessage(res.error);
+    if (res.success) {
+      toast.success(`Welcome ${values.username}! Please Sign-in`, {
+        duration: 2000,
+      });
+      router.push(`/signin?success=${values.username}`);
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(submit)} className="space-y-8 max-w-xs">
+      <form onSubmit={handleSubmit(submit)} className="space-y-4 w-[20rem]">
         <FormField
           control={form.control}
           name="email"
@@ -53,7 +58,28 @@ export const SignupForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input
+                  disabled={isSubmitting}
+                  placeholder="Enter your email"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isSubmitting}
+                  placeholder="Create a username"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,6 +93,7 @@ export const SignupForm = () => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
+                  disabled={isSubmitting}
                   type="password"
                   placeholder="Enter your password"
                   {...field}
@@ -84,6 +111,7 @@ export const SignupForm = () => {
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <Input
+                  disabled={isSubmitting}
                   type="password"
                   placeholder="Confirm your password"
                   {...field}
@@ -93,8 +121,20 @@ export const SignupForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Submit
+        {errorMessage && (
+          <p className="text-sm bg-red-100 text-destructive px-3 py-2 rounded">
+            {errorMessage}
+          </p>
+        )}
+        <Button disabled={isSubmitting} type="submit" className="w-full">
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 animate-spin" />
+              Signing up...
+            </>
+          ) : (
+            "Sign up"
+          )}
         </Button>
       </form>
     </Form>

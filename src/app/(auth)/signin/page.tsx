@@ -3,7 +3,14 @@ import { SigninForm } from "@/components/SigninForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const SigninPage = () => {
+const SigninPage = ({
+  searchParams,
+}: {
+  searchParams: { success: string };
+}) => {
+  if (searchParams.success) {
+  }
+
   return (
     <div className="border  px-6 py-4 rounded shadow space-y-2">
       <div className="flex justify-between items-center">
