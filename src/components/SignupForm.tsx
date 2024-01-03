@@ -11,7 +11,7 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { signupAction } from "@/lib/actions";
+import { signupAction } from "@/actions/signup";
 import { signupSchema, signupSchemaType } from "@/schemas";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

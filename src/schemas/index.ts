@@ -17,3 +17,10 @@ export const signupSchema = z
   });
 
 export type signupSchemaType = z.infer<typeof signupSchema>;
+
+export const signinSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1, "Invalid password"),
+});
+
+export type signinSchemaType = z.infer<typeof signinSchema>;

@@ -1,7 +1,7 @@
 "use server";
 import { signupSchema, signupSchemaType } from "@/schemas";
 import * as bcrypt from "bcryptjs";
-import db from "./db";
+import db from "@/lib/db";
 
 export const signupAction = async (values: signupSchemaType) => {
   const parsed = signupSchema.safeParse(values);

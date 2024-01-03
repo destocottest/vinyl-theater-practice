@@ -18,7 +18,7 @@ const SigninPage = ({
         <ReturnHomeButton />
       </div>
       <SigninForm />
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-muted-foreground text-center">
         Don&apos;t have an account?{" "}
         <Button className="px-0" variant="link" asChild>
           <Link href="/signup">Sign up here</Link>
