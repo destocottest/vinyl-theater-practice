@@ -1,7 +1,7 @@
 import { signinSchema } from "@/schemas";
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { getUserByEmail } from "./queries";
+import { getUserByEmail } from "../database/queries/user";
 import * as bcrypt from "bcryptjs";
 import Google from "next-auth/providers/google";
 
@@ -25,6 +25,7 @@ const authConfig = {
     Google({
       clientId: process.env.AUTH_GOOGLE_CLIENT_ID,
       clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
 } satisfies NextAuthConfig;

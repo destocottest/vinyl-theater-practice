@@ -1,7 +1,8 @@
 "use server";
 import { signupSchema, signupSchemaType } from "@/schemas";
 import * as bcrypt from "bcryptjs";
-import db from "@/lib/db";
+import db from "@/database/db";
+import { getProfileByDisplay, getUserByEmail } from "@/database/queries/user";
 
 export const signupAction = async (values: signupSchemaType) => {
   const parsed = signupSchema.safeParse(values);
@@ -12,17 +13,14 @@ export const signupAction = async (values: signupSchemaType) => {
 
   try {
     const { display, email, password } = parsed.data;
-    const isEmailTaken = await db.user.findUnique({
-      where: { email },
-    });
-    if (isEmailTaken) {
+
+    const user = await getUserByEmail(email);
+    if (user) {
       return { error: "Email is already in use." };
     }
 
-    const isDisplayNameTaken = await db.profile.findUnique({
-      where: { display },
-    });
-    if (isDisplayNameTaken) {
+    const profile = await getProfileByDisplay(display);
+    if (profile) {
       return { error: "Display name is already taken." };
     }
 
@@ -43,8 +41,7 @@ export const signupAction = async (values: signupSchemaType) => {
     });
 
     return { success: true };
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
     return { error: "Oops! Something went wrong..." };
   }
 };

@@ -9,8 +9,8 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { signupAction } from "@/actions/signup";
 import { signupSchema, signupSchemaType } from "@/schemas";
 import { useEffect, useState } from "react";

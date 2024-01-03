@@ -14,7 +14,7 @@ export const GoogleSignInButton = ({ message }: { message: string }) => {
       variant="outline"
       className="w-full"
     >
-      <div className="flex">
+      <div className="flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="#4285F4"

@@ -1,9 +1,9 @@
 import { auth } from "@/lib/auth";
-import { getProfileByUserId } from "@/lib/queries";
+import { getProfileBySessionUserId } from "@/database/queries/user";
 
 const ProfilePage = async () => {
   const session = await auth();
-  const profile = session && (await getProfileByUserId(session.user.id));
+  const profile = session && (await getProfileBySessionUserId(session.user.id));
 
   return (
     <main className="flex-1 grid place-items-center">

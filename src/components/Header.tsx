@@ -2,19 +2,19 @@ import Link from "next/link";
 import { SignoutButton } from "./SignoutButton";
 import { Button } from "./ui/button";
 import { auth } from "@/lib/auth";
-import { getProfileByUserId } from "@/lib/queries";
+import { getProfileBySessionUserId } from "@/database/queries/user";
 
 export const Header = async () => {
   const session = await auth();
-  const profile = session && (await getProfileByUserId(session.user.id));
+  const profile = await getProfileBySessionUserId(session?.user.id);
 
   return (
-    <header className="px-2 py-4">
+    <header className="p-4">
       <div className="flex justify-between items-end">
         <h1 className="text-4xl font-bold">
           <Link href="/">Vinyl Theater</Link>
         </h1>
-        <h6>welcome, {profile?.display}</h6>
+        {profile && <h6>Welcome, {profile.display}</h6>}
       </div>
       <nav className="w-full flex justify-between items-center mt-4">
         <ul className="flex gap-4">

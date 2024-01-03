@@ -22,7 +22,7 @@ model User {
 }
 
 model Profile {
-  id      String
+  id      String  @unique
   display String  @unique
   image   String?
 
