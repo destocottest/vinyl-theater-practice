@@ -8,6 +8,8 @@ export default auth((req) => {
   const { auth, nextUrl } = req;
   const { pathname } = nextUrl;
 
+  if (pathname.startsWith("/api/auth")) return null;
+
   if (!auth && !publicRoutes.includes(pathname)) {
     return Response.redirect(new URL("/signin", nextUrl));
   }

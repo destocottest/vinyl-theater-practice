@@ -1,3 +1,4 @@
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { ReturnHomeButton } from "@/components/ReturnHomeButton";
 import { SigninForm } from "@/components/SigninForm";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ const SigninPage = ({
         <ReturnHomeButton />
       </div>
       <SigninForm />
+      <GoogleSignInButton message="Sign in with Google" />
       <p className="text-sm text-muted-foreground text-center">
         Don&apos;t have an account?{" "}
         <Button className="px-0" variant="link" asChild>

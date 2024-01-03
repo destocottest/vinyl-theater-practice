@@ -13,7 +13,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { signupAction } from "@/actions/signup";
 import { signupSchema, signupSchemaType } from "@/schemas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ export const SignupForm = () => {
     resolver: zodResolver(signupSchema),
     defaultValues: {
       email: "",
-      username: "",
+      display: "",
       password: "",
       confirm: "",
     },
@@ -34,6 +34,8 @@ export const SignupForm = () => {
   const {
     handleSubmit,
     formState: { isSubmitting },
+    watch,
+    setValue,
   } = form;
 
   const submit = async (values: signupSchemaType) => {
@@ -41,12 +43,17 @@ export const SignupForm = () => {
     const res = await signupAction(values);
     if (res.error) setErrorMessage(res.error);
     if (res.success) {
-      toast.success(`Welcome ${values.username}! Please Sign-in`, {
+      toast.success(`Welcome ${values.display}! Please Sign-in`, {
         duration: 2000,
       });
-      router.push(`/signin?success=${values.username}`);
+      router.push("/signin");
     }
   };
+
+  const watchDisplayName = watch("display");
+  useEffect(() => {
+    setValue("display", watchDisplayName.toLowerCase());
+  }, [watchDisplayName, setValue]);
 
   return (
     <Form {...form}>
@@ -70,14 +77,14 @@ export const SignupForm = () => {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="display"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Display Name</FormLabel>
               <FormControl>
                 <Input
                   disabled={isSubmitting}
-                  placeholder="Create a username"
+                  placeholder="Create a display name"
                   {...field}
                 />
               </FormControl>

@@ -11,7 +11,7 @@ export const signupAction = async (values: signupSchemaType) => {
   }
 
   try {
-    const { username, email, password } = parsed.data;
+    const { display, email, password } = parsed.data;
     const isEmailTaken = await db.user.findUnique({
       where: { email },
     });
@@ -19,11 +19,11 @@ export const signupAction = async (values: signupSchemaType) => {
       return { error: "Email is already in use." };
     }
 
-    const isUsernameTaken = await db.user.findUnique({
-      where: { name: username },
+    const isDisplayNameTaken = await db.profile.findUnique({
+      where: { display },
     });
-    if (isUsernameTaken) {
-      return { error: "Username is already taken." };
+    if (isDisplayNameTaken) {
+      return { error: "Display name is already taken." };
     }
 
     const hashed = await bcrypt.hash(password, 10);
@@ -31,10 +31,17 @@ export const signupAction = async (values: signupSchemaType) => {
     await db.user.create({
       data: {
         email,
-        name: username,
         password: hashed,
+        Profile: {
+          create: [
+            {
+              display,
+            },
+          ],
+        },
       },
     });
+
     return { success: true };
   } catch (error) {
     console.log(error);
