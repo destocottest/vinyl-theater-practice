@@ -10,13 +10,13 @@ const AlbumSearchPage = async ({
 }) => {
   const albums = await getAlbumsFromDiscogs(
     searchParams.artist,
-    searchParams.title
+    searchParams.title,
   );
 
   return (
     <main className="flex-1 p-4 ">
       <DiscogsSearchForm />
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+      <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {albums.results.map((album: DiscogsAlbumType) => (
           <DiscogsAlbumCard key={album.master_id} album={album} />
         ))}

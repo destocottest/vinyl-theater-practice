@@ -7,9 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "./ui/button";
-import { Info } from "lucide-react";
 import { AddAlbumButton } from "./AddAlbumButton";
+import { AlbumDetailsLink } from "./AlbumDetailsLink";
 
 export const DiscogsAlbumCard = ({ album }: { album: DiscogsAlbumType }) => {
   return (
@@ -26,15 +25,19 @@ export const DiscogsAlbumCard = ({ album }: { album: DiscogsAlbumType }) => {
               alt=""
               fill
               className="cover shadow"
+              loading="lazy"
             />
           </div>
         </CardContent>
-        <Card className="absolute left-0 top-0 z-10 grid h-full w-full place-items-center bg-secondary/50 opacity-0 group-hover:opacity-100">
-          <CardContent className="flex gap-4">
-            <AddAlbumButton masterId={album.master_id} />
-            <Button variant="outline" size="icon">
-              <Info />
-            </Button>
+        <Card className="absolute left-0 top-0 z-10 grid h-full w-full place-items-center bg-secondary/60 opacity-0 group-hover:opacity-100">
+          <CardContent>
+            <p className="px-2 text-center text-sm font-semibold tracking-tighter drop-shadow-sm">
+              {album.title}
+            </p>
+            <div className="mt-4 flex justify-center gap-4">
+              <AddAlbumButton masterId={album.master_id} />
+              <AlbumDetailsLink masterId={album.master_id} />
+            </div>
           </CardContent>
         </Card>
       </Card>

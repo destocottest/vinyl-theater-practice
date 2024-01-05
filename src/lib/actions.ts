@@ -91,12 +91,14 @@ export const addAlbumToProfile = async (masterId: number) => {
 
     if (isAlbumAlreadyAdded) return { error: "Album already collection" };
 
-    const albumMetaData: {
-      title: string;
-      artist: string;
-      cover: string;
-      year: number;
-    } = await getAlbumFromDiscogsMasterId(masterId);
+    const data = await getAlbumFromDiscogsMasterId(masterId);
+
+    const albumMetaData = {
+      title: data.title,
+      artist: data.artists[0].name,
+      cover: data.images[0].uri,
+      year: data.year,
+    };
 
     const isAlbumInDatabase = await db.album.findUnique({
       where: {
@@ -134,6 +136,7 @@ export const addAlbumToProfile = async (masterId: number) => {
     revalidatePath("/");
     return { success: "Album added to collection" };
   } catch (error) {
+    console.log(error);
     return { error: "Oops! Something went wrong..." };
   }
 };
