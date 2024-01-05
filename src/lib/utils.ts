@@ -5,25 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const vinylWordList = [
-  "vinyl",
-  "record",
-  "groove",
-  "turntable",
-  "spin",
-  "platter",
-];
-
-const musicWordList = [
-  "melody",
-  "rhythm",
-  "beat",
-  "note",
-  "chord",
-  "lyric",
-  "harmony",
-];
-
 export const generateDisplayName = (name: string | null | undefined) => {
   let display = "";
 
@@ -31,13 +12,40 @@ export const generateDisplayName = (name: string | null | undefined) => {
     display = name.toLowerCase();
     display = display.replace(/\s/g, "");
   } else {
-    const randomVinylWord =
-      vinylWordList[Math.floor(Math.random() * vinylWordList.length)];
-    const randomMusicWord =
-      musicWordList[Math.floor(Math.random() * musicWordList.length)];
-    display += randomVinylWord;
-    display += randomMusicWord;
+    const randomIndex = Math.floor(Math.random() * defaultDisplayNames.length);
+    display += defaultDisplayNames[randomIndex];
   }
 
   return display;
 };
+
+const defaultDisplayNames = [
+  "vinylmelody",
+  "vinylrhythm",
+  "vinylbeat",
+  "vinylnote",
+  "vinylchord",
+  "vinyllyric",
+  "vinylharmony",
+  "recordmelody",
+  "recordrhythm",
+  "recordbeat",
+  "recordnote",
+  "recordchord",
+  "recordlyric",
+  "recordharmony",
+  "groovemelody",
+  "grooverhythm",
+  "groovebeat",
+  "groovenote",
+  "groovechord",
+  "groovelyric",
+  "grooveharmony",
+  "turntablemelody",
+  "turntablerhythm",
+  "turntablebeat",
+  "turntablenote",
+  "turntablechord",
+  "turntablelyric",
+  "turntableharmony",
+];

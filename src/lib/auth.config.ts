@@ -1,9 +1,10 @@
 import { signinSchema } from "@/schemas";
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { getUserByEmail } from "../database/queries/user";
+import { getUserByEmail } from "@/database/queries";
 import * as bcrypt from "bcryptjs";
 import Google from "next-auth/providers/google";
+import Github from "next-auth/providers/github";
 
 const authConfig = {
   providers: [
@@ -25,6 +26,11 @@ const authConfig = {
     Google({
       clientId: process.env.AUTH_GOOGLE_CLIENT_ID,
       clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Github({
+      clientId: process.env.AUTH_GITHUB_CLIENT_ID,
+      clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
   ],

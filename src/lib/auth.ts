@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import db from "@/database/db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import authConfig from "./auth.config";
-import { createProfileFromOAuthUser } from "../database/mutations/user";
+import authConfig from "@/lib/auth.config";
+import { createProfileFromOAuthUser } from "@/database/queries";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {

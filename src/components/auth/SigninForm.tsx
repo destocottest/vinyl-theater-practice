@@ -8,11 +8,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "../ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signinSchema, signinSchemaType } from "@/schemas";
-import { signinAction } from "@/actions/signin";
+import { signinAction } from "@/lib/actions";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ export const SigninForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(submit)} className="space-y-4 w-[20rem]">
+      <form onSubmit={handleSubmit(submit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"

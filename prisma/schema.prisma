@@ -21,12 +21,28 @@ model User {
   Profile       Profile[]
 }
 
+model Album {
+  masterId  Int      @id @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title  String
+  artist String?
+  cover  String?
+  year   Int
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+}
+
 model Profile {
-  id      String  @unique
+  id      String  @id @unique
   display String  @unique
   image   String?
 
   user User @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  collection Album[]
 }
 
 model Account {

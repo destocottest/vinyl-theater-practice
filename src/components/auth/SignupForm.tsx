@@ -8,10 +8,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "../ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signupAction } from "@/actions/signup";
+import { signupAction } from "@/lib/actions";
 import { signupSchema, signupSchemaType } from "@/schemas";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -57,7 +57,7 @@ export const SignupForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(submit)} className="space-y-4 w-[20rem]">
+      <form onSubmit={handleSubmit(submit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
